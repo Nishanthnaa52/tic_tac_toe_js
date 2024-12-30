@@ -40,12 +40,15 @@ function checkScore() {
         [0,4,8],[2,4,6]
     ]
 
+    let winnerFound = false;
+
     winningCombos.forEach(array => {
         const circleWins = array.every(cell => allBox[cell].firstChild?.classList.contains('circle'))
         if (circleWins) {
             gameInfo.innerHTML = "<span style='color: rgb(35, 165, 90)'>Circle</span> Wins!";
             allBox.forEach(box => box.replaceWith(box.cloneNode(true)));
             document.location.hash = "#gameOver";
+            winnerFound = true;
         }
     })
 
@@ -55,13 +58,16 @@ function checkScore() {
             gameInfo.innerHTML = "<span style='color: rgb(242, 63, 67)'>Cross</span> Wins!";
             allBox.forEach(box => box.replaceWith(box.cloneNode(true)));
             document.location.hash = "#gameOver";
+            winnerFound = true;
         }
     })
 
-    const isDraw = [...allBox].every(box => box.firstChild);
-    if (isDraw) {
-        gameInfo.innerHTML = "<span style='color: rgb(226 219 85);'>Draw</span>!";
-        allBox.forEach(box => box.replaceWith(box.cloneNode(true)));
-        document.location.hash = "#gameOver";
+    if (!winnerFound) {
+        const isDraw = [...allBox].every(box => box.firstChild);
+        if (isDraw) {
+            gameInfo.innerHTML = "<span style='color: rgb(226 219 85);'>Draw</span>!";
+            allBox.forEach(box => box.replaceWith(box.cloneNode(true)));
+            document.location.hash = "#gameOver";
+        }
     }
 }
